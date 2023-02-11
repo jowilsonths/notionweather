@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Widget</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $.getJSON('https://api.weatherapi.com/v1/forecast.json?key=YOUR_API_KEY&q=YOUR_LOCATION&days=2', function(data) {
+          var forecast = data.forecast.forecastday[1];
+          var weather = forecast.hour.filter(hour => hour.time.slice(-5) === '05:00')[0];
+          var condition = weather.condition.text;
+          var temperature = weather.temp_c;
+          $('#weather').html('Tomorrow at 5am: ' + condition + ', ' + temperature + '&deg;C');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="weather"></div>
+  </body>
+</html>
