@@ -2,37 +2,9 @@
 <html>
   <head>
     <title>Weather Widget</title>
-    <style>
-      #weather {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #f0f0f0;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-        font-family: sans-serif;
-        font-size: 24px;
-        font-weight: bold;
-        text-align: center;
-      }
-      #weather .temperature {
-        font-size: 36px;
-        font-weight: normal;
-        margin-bottom: 10px;
-      }
-      #weather .condition {
-        font-size: 20px;
-        font-weight: normal;
-      }
-    </style>
   </head>
   <body>
-    <div id="weather">
-      <div class="temperature"></div>
-      <div class="condition"></div>
-    </div>
+    <div id="weather"></div>
     <script>
       var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
       var targetUrl = 'https://api.weatherapi.com/v1/forecast.json?key=6fd10c3a1abf4fecaa6125207231102&q=Charlotte&days=2';
@@ -43,10 +15,8 @@
           var forecast = data.forecast.forecastday[1];
           var weather = forecast.hour.filter(hour => hour.time.slice(-5) === '05:00')[0];
           var condition = weather.condition.text;
-          var temperatureC = weather.temp_c;
-          var temperatureF = (temperatureC * 9 / 5) + 32;
-          document.querySelector('#weather .temperature').textContent = temperatureF.toFixed(0) + '\xB0F';
-          document.querySelector('#weather .condition').textContent = condition;
+          var temperature = weather.temp_f;
+          document.getElementById('weather').innerHTML = 'Tomorrow at 5am: ' + condition + ', ' + temperature + '&deg;C';
         }
       };
       xhr.open('GET', proxyUrl + targetUrl, true);
