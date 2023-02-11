@@ -6,6 +6,8 @@
   <body>
     <div id="weather"></div>
     <script>
+      var proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      var targetUrl = 'https://api.weatherapi.com/v1/forecast.json?key=6fd10c3a1abf4fecaa6125207231102&q=Charlotte&days=2';
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -17,7 +19,8 @@
           document.getElementById('weather').innerHTML = 'Tomorrow at 5am: ' + condition + ', ' + temperature + '&deg;C';
         }
       };
-      xhr.open('GET', 'https://api.weatherapi.com/v1/forecast.json?key=6fd10c3a1abf4fecaa6125207231102&q=Charlotte&days=2', true);
+      xhr.open('GET', proxyUrl + targetUrl, true);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
       xhr.send();
     </script>
   </body>
