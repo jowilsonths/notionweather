@@ -1,30 +1,32 @@
-<div>
-  <h2>5AM Weather Forecast for Charlotte, NC</h2>
-  <div>
-    <img id="weather-icon" alt="Weather icon">
-    <p><span id="temp"></span>&deg;F</p>
-    <p><span id="description"></span></p>
-  </div>
-</div>
-
-<script>
-  const API_KEY = '6fd10c3a1abf4fecaa6125207231102';
-  const LOCATION = 'Charlotte,NC';
-  const ENDPOINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LOCATION}&days=1&aqi=no&alerts=no`;
-
-  fetch(ENDPOINT)
-    .then(response => response.json())
-    .then(data => {
-      const forecast = data.forecast.forecastday[0].hour.filter(hour => hour.time.slice(-5) === '05:00');
-      const temp = forecast[0].temp_f;
-      const description = forecast[0].condition.text;
-      const icon = forecast[0].condition.icon;
-
-      document.getElementById('temp').innerHTML = temp;
-      document.getElementById('description').innerHTML = description;
-      document.getElementById('weather-icon').src = `https:${icon}`;
-    })
-    .catch(error => {
-      console.error(error);
-    });
-</script>
+<html>
+  <head>
+    <title>Weather Widget</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div id="weather"></div>
+    <script>
+      $(document).ready(function() {
+        $.getJSON('https://api.weatherapi.com/v1/forecast.json?key=6fd10c3a1abf4fecaa6125207231102&q=Charlotte&days=2', function(data) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var data = JSON.parse(this.responseText);
+          var forecast = data.forecast.forecastday[1];
+          var weather = forecast.hour.filter(hour => hour.time.slice(-5) === '05:00')[0];
+          var condition = weather.condition.text;
+          var temperature = weather.temp_c;
+          $('#weather').html('Tomorrow at 5am: ' + condition + ', ' + temperature + '&deg;C');
+        });
+      });
+          document.getElementById('weather').innerHTML = 'Tomorrow at 5am: ' + condition + ', ' + temperature + '&deg;C';
+        }
+      };
+      xhr.open('GET', 'https://api.weatherapi.com/v1/forecast.json?key=6fd10c3a1abf4fecaa6125207231102&q=Charlotte&days=2', true);
+      xhr.send();
+    </script>
+  </head>
+  <body>
+    <div id="weather"></div>
+  </body>
+</html>
