@@ -18,12 +18,12 @@
 <script>
   const API_KEY = '6fd10c3a1abf4fecaa6125207231102';
   const LOCATION = 'Charlotte,NC';
-  const ENDPOINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LOCATION}&days=1&aqi=no&alerts=no`;
+  const ENDPOINT = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${LOCATION}&days=2&aqi=no&alerts=no`;
 
   fetch(ENDPOINT)
     .then(response => response.json())
     .then(data => {
-      const forecast = data.forecast.forecastday[0].hour.filter(hour => hour.time.slice(-5) === '05:00');
+      const forecast = data.forecast.forecastday[1].hour.filter(hour => hour.time.slice(-5) === '05:00');
       const temp = forecast[0].temp_f;
       const description = forecast[0].condition.text;
       const icon = forecast[0].condition.icon;
